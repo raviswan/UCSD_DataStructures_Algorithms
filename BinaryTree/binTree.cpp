@@ -121,11 +121,11 @@ int BinTree::insertRight(BinTreeNode* parent,void* data){
 }
 
 
-int BinTree::removeLeft(BinTreeNode* parent){
+void BinTree::removeLeft(BinTreeNode* parent){
 	BinTreeNode *toRemove;
 	/*No removal from emtpy tree*/
 	if(this->size == 0)
-		return FAILURE;
+		return;
 	/*If deleting from root*/
 	if(parent == NULL)
 		toRemove = this->root;
@@ -139,15 +139,14 @@ int BinTree::removeLeft(BinTreeNode* parent){
 	}
 	delete(toRemove);
 	this->size--;
-	return SUCCESS;
 }
 
 
-int BinTree::removeRight(BinTreeNode* parent){
+void  BinTree::removeRight(BinTreeNode* parent){
 	BinTreeNode *toRemove;
 	/*No removal from emtpy tree*/
 	if(this->size == 0)
-		return FAILURE;
+		return;
 	/*if deleting from root*/
 	if(parent == NULL)
 		toRemove = this->root;
@@ -161,7 +160,6 @@ int BinTree::removeRight(BinTreeNode* parent){
 	}
 	delete(toRemove);
 	this->size--;
-	return SUCCESS;
 }
 
 

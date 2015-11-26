@@ -41,9 +41,9 @@ public:
 	/*insert a node to right of parent node*/
 	int insertRight(BinTreeNode* parent,void* data);
 	/*recursively remove left sub-tree of parent node*/
-	int removeLeft(BinTreeNode* parent);
+	void removeLeft(BinTreeNode* parent);
 	/*recursively remove right sub-tree of parent node*/
-	int removeRight(BinTreeNode* parent);
+	void removeRight(BinTreeNode* parent);
 	/*use this to destroy data only if data is allocated on the heap*/
 	int destroyData(BinTreeNode* data);
 	/*Count the number of the leaves in a tree*/
