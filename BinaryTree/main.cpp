@@ -1,9 +1,17 @@
 #include "binTree.h"
+ /*   BST
+ 		12                           10
+        / \                           \
+       11  13                         12
+       /\   \                         /\
+      9 11.5 14                      9 13
+ */
 
 void printNodeData(const void* node){
 	BinTreeNode* elem = (BinTreeNode*) node;
 	printf("%d\n",*(int*)elem->getData());
 }
+
 
 void BuildTreeOne(BinTree &t, int data[]){
 	t.insertLeft(NULL,&data[0]);
@@ -33,11 +41,26 @@ void BuildTreeTwo(BinTree &t, int data[]){
 int main(){
 	BinTree tree1, tree2;
 	/*elements in pre-order*/
-	int treeOneData[] = {1,2,4,7,3,5,6,8,9};
+	//int treeOneData[] = {1,2,4,7,3,5,6,8,9};
 	int treeTwoData[] = {6,4,2,1,3,5,8,7,9};
+	int treeOneData[] = {11,10,9,8,13,7,16,18,19};
+	
 
 	BuildTreeOne(tree1,treeOneData);
 	BuildTreeTwo(tree2,treeTwoData);
+
+	if (tree1.isBinarySearchTree() )
+		printf("tree1 is a BST\n\n");
+	else
+		printf("tree1 is not a BST\n\n");
+
+
+	if (tree2.isBinarySearchTree() )
+		printf("tree2 is a BST\n");
+	else
+		printf("tree2 is not a BST\n");
+
+
 
 	printf("no. of leaves in Tree 1 = %d\n",tree1.countLeaves());
 	printf("no. of leaves in Tree 2 = %d\n",tree2.countLeaves());

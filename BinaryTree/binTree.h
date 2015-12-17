@@ -60,6 +60,8 @@ public:
 	void printPostOrder(void (*print)(const void *data));
 	/*Remove all leaves of a tree*/
 	void removeLeaves(void);
+	/*Is the tree a binary search tree*/
+	bool isBinarySearchTree(void);
 
 private:
 	/*internal functions*/
@@ -69,6 +71,7 @@ private:
 	void doPrintInOrder(BinTreeNode* node,void (*print)(const void *data));
 	void doPrintPostOrder(BinTreeNode* node,void (*print)(const void *data));
 	void doRemoveLeaves(BinTreeNode* node);
+	bool isBST(BinTreeNode* node,int min, int max);
 	/*root pointer of a tree*/
 	BinTreeNode* root;
 	/*total elements in a tree*/

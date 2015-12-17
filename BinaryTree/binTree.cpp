@@ -4,9 +4,22 @@
 #include "binTree.h"
 
 using namespace std;
+const int MAX_VALUE =  65535;
+const int MIN_VALUE =  0;
 
 
 /*--------------Binary Tree Node definition-------------------*/
+
+int compareNodes(void* key1, void* key2){
+	BinTreeNode* node1 = (BinTreeNode*) key1;
+	BinTreeNode* node2 = (BinTreeNode*) key2;
+
+	if(*(int*)node1->getData() < *(int*)node2->getData())
+		return -1;
+	else
+		return 1;
+
+}
 
 /*Tree Node Constructor*/
 BinTreeNode::BinTreeNode(void *data):left(NULL),right(NULL),data(data){
@@ -299,3 +312,22 @@ void BinTree::doRemoveLeaves(BinTreeNode* node){
 	doRemoveLeaves(node->getLeftNode());
 	doRemoveLeaves(node->getRightNode());
 }
+
+
+ bool BinTree::isBinarySearchTree(){
+  	if (isBST(root,MIN_VALUE,MAX_VALUE) ) 
+  		return true;
+  	else
+  		return false;
+ }
+
+ bool BinTree::isBST(BinTreeNode* node,int min, int max){
+ 	if(node == NULL)
+ 		return (true);
+ 	printf("node val = %d, min = %d , max = %d\n",*(int*)node->getData(),min,max );
+ 	if( *(int*)(node->getData()) <= min || *(int*)(node->getData()) >= max){
+ 		return false;
+ 	}
+ 	return( isBST(node->getLeftNode(),min,*(int*)node->getData()) && 
+ 			isBST(node->getRightNode(),*(int*)node->getData(),max) );
+ }
