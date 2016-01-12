@@ -27,14 +27,34 @@ void BuildTreeOne(BinTree &t, int data[]){
 
 void BuildTreeTwo(BinTree &t, int data[]){
 	t.insertLeft(NULL,&data[0]);
+	t.connectToParent(t.getRoot(),NULL);
+
 	t.insertLeft(t.getRoot(),&data[1]);
+	t.connectToParent((t.getRoot())->getLeftNode(),t.getRoot());
+
 	t.insertLeft((t.getRoot())->getLeftNode(),&data[2]);
+	t.connectToParent((t.getRoot())->getLeftNode()->getLeftNode(),(t.getRoot())->getLeftNode());
+
 	t.insertLeft((t.getRoot())->getLeftNode()->getLeftNode(),&data[3]);
+	t.connectToParent((t.getRoot())->getLeftNode()->getLeftNode()->getLeftNode(),
+		(t.getRoot())->getLeftNode()->getLeftNode());
+
 	t.insertRight((t.getRoot())->getLeftNode()->getLeftNode(),&data[4]);
+	t.connectToParent((t.getRoot())->getLeftNode()->getLeftNode()->getRightNode(),
+		(t.getRoot())->getLeftNode()->getLeftNode());
+
 	t.insertRight((t.getRoot())->getLeftNode(),&data[5]);
+	t.connectToParent((t.getRoot())->getLeftNode()->getRightNode(),
+		(t.getRoot())->getLeftNode());
+
 	t.insertRight(t.getRoot(),&data[6]);
+	t.connectToParent((t.getRoot())->getRightNode(),t.getRoot());
+
 	t.insertLeft((t.getRoot())->getRightNode(),&data[7]);
+	t.connectToParent((t.getRoot())->getRightNode()->getLeftNode(),(t.getRoot())->getRightNode());
+
 	t.insertRight((t.getRoot())->getRightNode(),&data[8]);
+	t.connectToParent((t.getRoot())->getRightNode()->getRightNode(),(t.getRoot())->getRightNode());
 }
 
 
@@ -91,7 +111,7 @@ int main(){
 	tree1.printInOrder(printNodeData);
 	printf("Printing Tree1 in Post-Order after removal \n");
 	tree1.printPostOrder(printNodeData);
-
+/*
 	printf("\nRemoving leaves from tree2\n");
 	tree2.removeLeaves();
 	printf("Printing Tree2 in Pre-Order after removal \n");
@@ -100,6 +120,17 @@ int main(){
 	tree2.printInOrder(printNodeData);
 	printf("Printing Tree2 in Post-Order after removal \n");
 	tree2.printPostOrder(printNodeData);
+*/
+
+	printf("\n----Printing BST in ascending order-----\n");
+	BinTreeNode* node = tree2.getNextNodeBST();
+	while(node != NULL){
+		printf("value is : %d\n",*(int*)node->getData());
+		node = tree2.getNextNodeBST();
+
+	}
+
+	
 
 	return 0;
 

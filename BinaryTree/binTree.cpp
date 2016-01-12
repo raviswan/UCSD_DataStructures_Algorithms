@@ -36,6 +36,10 @@ BinTreeNode* BinTreeNode::getRightNode() const{
 	return this->right;
 }
 
+BinTreeNode* BinTreeNode::getParentNode() const{
+	return this->parent;
+}
+
 void* BinTreeNode::getData() const{
 	return data;
 }
@@ -52,6 +56,10 @@ int BinTreeNode::setRightNode(void* data) {
 	return SUCCESS;
 }
 
+int BinTreeNode::setParent(BinTreeNode* parent) {
+	this->parent =  parent;
+	return SUCCESS;
+}
 
 int BinTreeNode::setLeftToNull() {
 	this->left =  NULL;
@@ -74,7 +82,7 @@ bool BinTreeNode::isLeafNode() const{
 /*--------------Binary Tree definition-------------------*/
 
 /*Binary Tree Constructor*/
-BinTree::BinTree():size(0),root(NULL),leafCount(0),height(-1){
+BinTree::BinTree():size(0),root(NULL),leafCount(0),height(-1),firstNodeFlag(false){
 }
 
 BinTree::~BinTree(){
@@ -131,6 +139,11 @@ int BinTree::insertRight(BinTreeNode* parent,void* data){
 		}
 	}
 	return FAILURE;
+}
+
+/*Insert a node to right of parent node*/
+void BinTree::connectToParent(BinTreeNode* child,BinTreeNode* parent){
+	child->setParent(parent);
 }
 
 
@@ -330,4 +343,91 @@ void BinTree::doRemoveLeaves(BinTreeNode* node){
  	}
  	return( isBST(node->getLeftNode(),min,*(int*)node->getData()) && 
  			isBST(node->getRightNode(),*(int*)node->getData(),max) );
+}
+
+BinTreeNode* BinTree::getLeftMostNode(BinTreeNode* node){
+ 	while(node->getLeftNode() != NULL){
+ 		node = node->getLeftNode();
+ 	}
+ 	return node;
+ 
+}
+
+/*get next node in BST without using in-order traversal*/
+BinTreeNode* BinTree::getNextNodeBST(){
+	int parentVal;
+	int currVal;
+	int rightVal;
+	if (!firstNodeFlag){
+		if(root != NULL){
+			current = getLeftMostNode(root);
+			//printf("current=%d\n",*(int*)current->getData());
+			firstNodeFlag = true;
+		}
+		else{
+			printf("root is NULL\n");
+		}
+	}
+	else{
+		/*For a given node, compare parent and right node values*/
+		currVal = *((int*)current->getData());
+		/*if parent present*/
+		if(current->getParentNode() != NULL){
+			parentVal = * ((int*)current->getParentNode()->getData());
+			//printf("currVal=%d, parentVal=%d\n",currVal,parentVal	);
+			/*if current val < parent Val, you are dealing with right subtree*/
+			if(currVal < parentVal){
+				/*if right node present*/
+				if(current->getRightNode() != NULL){
+					rightVal = * ((int*)current->getRightNode()->getData());
+					/*if right Val < parent Val, go down right sub-tree of current node, till you get leftmost*/
+					if(rightVal < parentVal){
+						current = getLeftMostNode(current->getRightNode());
+					}
+				}
+				/*when there's no right node, return parent as next*/
+				else{
+					current = current->getParentNode();
+				}
+			}
+			/*current val > parent Val, already in right subtree*/
+			else{
+				if(current->getRightNode()!=NULL)
+					current = getLeftMostNode(current->getRightNode());
+				/*reached end of right subtree, traverse all the way up till you find element > present*/
+				else{
+					while(currVal > parentVal){
+						current = current->getParentNode();
+						if(current == root){
+							break;
+						}
+						currVal = *((int*)current->getData());
+						parentVal = * ((int*)current->getParentNode()->getData());
+						//printf("currVal=%d, parentVal=%d\n",currVal,parentVal	);
+					}
+					if(current == root){
+						printf("reached end of tree\n");
+						return NULL;
+					}
+					current = current->getParentNode();
+				}
+			}
+
+		}
+		/*reached root, so goto right subtree, starting with leftmost there*/
+		else{
+			if(current->getRightNode()!=NULL)
+				current = getLeftMostNode(current->getRightNode());
+			else{
+				printf("reached end of tree");
+				return NULL;
+			}
+
+		}
+	}
+ 	return current;
+ 	
+
  }
+
+ 

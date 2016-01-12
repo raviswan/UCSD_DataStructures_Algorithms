@@ -11,6 +11,7 @@ public:
 	BinTreeNode(void* data);	
 	BinTreeNode* getLeftNode() const;
 	BinTreeNode* getRightNode() const;
+	BinTreeNode* getParentNode() const;
 	/*Create a left node with value pointed to by "data" pointer*/
 	int setLeftNode(void* data); 
 	/*Create a right node with value pointed to by "data" pointer*/
@@ -19,6 +20,8 @@ public:
 	int setLeftToNull();
 	/*Set right pointer of current node to NULL*/
 	int setRightToNull();
+	/*To set parent for BST traversal*/
+	int setParent(BinTreeNode* parent);
 	bool isLeafNode() const;
 	bool isEndOfBranch() const;
 	void* getData() const;
@@ -28,6 +31,9 @@ private:
 	void *data;
 	BinTreeNode* left;
 	BinTreeNode* right;
+	/*for BST traversal*/
+	BinTreeNode* parent;
+
 };
 
 class BinTree{
@@ -63,6 +69,14 @@ public:
 	/*Is the tree a binary search tree*/
 	bool isBinarySearchTree(void);
 
+
+	/*----get next node in BST without using inorder traversal----*/
+	/*Insert a node to right of parent node*/
+	void connectToParent(BinTreeNode* child,BinTreeNode* parent);
+	BinTreeNode* getNextNodeBST();
+	BinTreeNode* getLeftMostNode(BinTreeNode* node);
+	/*---------------------------------*/
+
 private:
 	/*internal functions*/
 	void doCountLeaves(BinTreeNode* node);
@@ -72,6 +86,8 @@ private:
 	void doPrintPostOrder(BinTreeNode* node,void (*print)(const void *data));
 	void doRemoveLeaves(BinTreeNode* node);
 	bool isBST(BinTreeNode* node,int min, int max);
+
+
 	/*root pointer of a tree*/
 	BinTreeNode* root;
 	/*total elements in a tree*/
@@ -80,6 +96,11 @@ private:
 	int leafCount;
 	/*height of a tree*/
 	int height;
+
+	/*for BST traversal*/
+	bool firstNodeFlag;
+	BinTreeNode* current;
+	
 };
 
 #endif
